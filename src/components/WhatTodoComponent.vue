@@ -1,39 +1,57 @@
-<script setup></script>
+<script setup>
+import { useTodoData } from '@/stores/todoData';
+
+const store = useTodoData();
+const { changeNav } = store;
+</script>
 <template>
   <section class="whattodo-box">
-    <div class="d-flex justify-content-end align-items-center">
-      <button class="delete-btn btn mb-24">
+    <div class="d-flex justify-content-between align-items-center">
+      <button type="button" class="btn mb-24 btn-sm" @click="changeNav">
+        <i class="bi bi-list fs-20"></i>
+      </button>
+      <button type="button" class="btn mb-24 btn-sm">
         <i class="bi bi-trash-fill fs-20"></i>
       </button>
     </div>
-    <input type="text" class="input-title" placeholder="new item title" />
-    <div
-      class="
-        second-aria
-        w-100
-        d-flex
-        justify-content-center
-        align-items-start
-        flex-wrap
-        mt-24
-      "
-    >
-      <div class="content-date">
-        <div class="position-relative">
-          <textarea
-            class="w-100 pb-32"
-            name=""
-            id=""
-            cols="30"
-            rows="10"
-            maxlength="200"
-          >
-          </textarea>
-          <span class="textlenght">1/200</span>
+    <div class="container-fluid">
+      <!-- title -->
+      <div class="row mb-24">
+        <div class="col-12">
+          <input
+            class="form-control form-control-lg"
+            type="text"
+            placeholder="new item title"
+          />
         </div>
       </div>
-      <div class="img-box">
-        <input class="w-100" type="text" name="" id="" />
+      <div class="row gx-lg-24">
+        <div class="col-md-7">
+          <div class="position-relative mb-24">
+            <textarea
+              class="form-control pb-64"
+              placeholder="content"
+              style="height: 150px"
+              maxlength="200"
+            ></textarea>
+            <span class="textlenght">1/200</span>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <input type="date" class="form-control text-center fs-20" />
+            <span class="px-32"> ~ </span>
+            <input type="date" class="form-control text-center fs-20" />
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="img-box">
+            <img class="todo-img rounded-2 mb-24" src="/sausage.png" alt="" />
+            <label class="w-100 btn btn-lg btn-btn-green">
+                Upload Image
+              <input type="file" style="display: none"/>
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -42,28 +60,6 @@
 .whattodo-box {
   padding: 23px 17px 23px 25px;
 }
-.delete-btn {
-}
-input,
-textarea {
-  border: none;
-  font-size: 20px;
-  background-color: #ebebeb;
-  color: #000;
-  border-radius: 8px;
-  padding: 12px 22px;
-}
-.input-title {
-  border: none;
-  font-weight: 400;
-  width: 100%;
-}
-
-.content-date {
-  width: 539px;
-  margin-right: 24px;
-}
-
 .textlenght {
   position: absolute;
   font-size: 14px;
@@ -71,8 +67,14 @@ textarea {
   bottom: 17px;
   right: 17px;
 }
-
 .img-box {
-  width: calc(100% - 563px);
+  width: 100%;
+  height: 150px;
+}
+.todo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 </style>
