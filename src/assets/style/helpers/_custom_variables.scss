@@ -377,10 +377,31 @@ $spacer: 1rem !default;
 $spacers: (
   0: 0,
   1: $spacer * 0.25,
+  //4
   2: $spacer * 0.5,
-  3: $spacer,
-  4: $spacer * 1.5,
-  5: $spacer * 3,
+  //8
+  3: $spacer * 0.75,
+  //12
+  4: $spacer,
+  //16
+  8: $spacer * 0.5,
+  //16
+  16: $spacer,
+  //16
+  18: $spacer * 1.125,
+  20: $spacer * 1.25,
+  22: $spacer * 1.375,
+  24: $spacer * 1.5,
+  28: $spacer * 1.75,
+  32: $spacer * 2,
+  36: $spacer * 2.25,
+  40: $spacer * 2.5,
+  44: $spacer * 2.75,
+  48: $spacer * 3,
+  56: $spacer * 3.5,
+  64: $spacer * 4,
+  72: $spacer * 4.5,
+  80: $spacer * 5,
 ) !default;
 // scss-docs-end spacer-variables-maps
 
@@ -574,6 +595,15 @@ $h6-font-size: $font-size-base !default;
 // scss-docs-end font-variables
 
 // scss-docs-start font-sizes
+// $font-sizes: (
+//   1: $h1-font-size,
+//   2: $h2-font-size,
+//   3: $h3-font-size,
+//   4: $h4-font-size,
+//   5: $h5-font-size,
+//   6: $h6-font-size,
+
+// ) !default;
 $font-sizes: (
   1: $h1-font-size,
   2: $h2-font-size,
@@ -581,6 +611,23 @@ $font-sizes: (
   4: $h4-font-size,
   5: $h5-font-size,
   6: $h6-font-size,
+  14: 1rem * 0.875,
+  16: 1rem,
+  18: 1rem * 1.125,
+  20: 1rem * 1.25,
+  24: 1rem * 1.5,
+  26: 1rem * 1.625,
+  28: 1rem * 1.75,
+  30: 1rem * 1.875,
+  32: 1rem * 2,
+  36: 1rem * 2.25,
+  40: 1rem * 2.5,
+  44: 1rem * 2.75,
+  48: 1rem * 3,
+  54: 1rem * 3.5,
+  64: 64px * 4,
+  72: 72px * 4.5,
+  80: 80px * 5,
 ) !default;
 // scss-docs-end font-sizes
 
