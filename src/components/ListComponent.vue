@@ -1,8 +1,18 @@
-<script setup></script>
+<script setup>
+import { useTodoData } from '@/stores/todoData';
+
+const store = useTodoData();
+const { changeNav } = store;
+</script>
 <template>
   <section class="list-box">
-    <ul class="list-unstyled d-flex aliic flex-column">
-      <h1 class="fs-20 fw-bold">Demo Todo List</h1>
+    <ul class="list-unstyled d-flex flex-column pt-24">
+      <li class="d-flex  justify-content-between align-items-center">
+        <h1 class="fs-20 fw-bold">Demo Todo List</h1>
+        <button type="button" class="btn btn-sm" @click="changeNav">
+          <i class="bi bi-x-lg fs-20 "></i>
+        </button>
+      </li>
       <li
         v-for="(item, index) in 10"
         :key="index + 103021"
