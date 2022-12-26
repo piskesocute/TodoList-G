@@ -1,5 +1,6 @@
 <script setup>
-import Datepicker from 'vue3-datepicker';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import { useTodoData } from '@/stores/todoData';
 import { computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
@@ -18,6 +19,10 @@ const imgUpload = (e) => {
   });
 };
 
+const minDate = computed(() => {
+  const selectDate = new Date(nowList.value.dateFrom.getTime() + 86400000);
+  return selectDate;
+});
 onMounted(() => {
   changeList();
 });
@@ -69,14 +74,16 @@ onMounted(() => {
 
           <div class="d-flex justify-content-between align-items-center">
             <Datepicker
-              class="form-control text-center fs-20"
+              class="w-100 text-center fs-18 fs-md-20"
               v-model="nowList.dateFrom"
+              :enable-time-picker="false"
             />
-            <span class="px-32"> ~ </span>
+            <span class="px-1"></span>
             <Datepicker
-              class="form-control text-center fs-20"
+              class="w-100 text-center fs-20 right-date"
               v-model="nowList.dateTo"
-              :lower-limit="nowList.dateFrom"
+              :min-date="minDate"
+              :enable-time-picker="false"
             />
           </div>
         </div>
@@ -116,7 +123,7 @@ onMounted(() => {
 .img-box {
   width: 100%;
   height: 150px;
-  background-color: #e1e1e1;
+  background-color: #EBEBEB;
   position: relative;
   &.noimg::before {
     position: absolute;
@@ -131,5 +138,9 @@ onMounted(() => {
   height: 100%;
   object-fit: cover;
   object-position: center center;
+}
+
+.dp__theme_light {
+  --dp-background-color: #EBEBEB;
 }
 </style>
