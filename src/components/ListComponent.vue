@@ -26,18 +26,18 @@ onMounted(() => {
       <li
         v-for="(item, index) in listData"
         :key="index + 103021"
-        class="list-item bg-hover-green fs-20 lh-base"
+        class="list-item bg-hover-green fs-20 lh-base "
         :class="{ active: index === nowListIndex }"
       >
         <a
           class="text-black text-decoration-none"
           href=""
-          @click.prevent="changeList(index)"
+          @click.prevent="changeList(index);changeNav()"
         >
           <p class="m-0 p-1" v-if="item.title === ''">
             {{ index + 1 }}.item title
           </p>
-          <p class="m-0 p-1" v-else>{{ index + 1 }} .{{ item.title }}</p>
+          <p class="m-0 p-1 list-title" v-else>{{ index + 1 }} .{{ item.title }}</p>
         </a>
       </li>
     </ul>
@@ -63,11 +63,12 @@ onMounted(() => {
     margin-bottom: 9px;
   }
 }
+
 .list-item {
   margin-bottom: 8px;
   padding-top: 4px;
   padding-left: 13px;
-  padding-right: 31px;
+  padding-right: 25px;
   padding-bottom: 3px;
   font-size: 20px;
   font-weight: 400;
@@ -87,6 +88,11 @@ onMounted(() => {
     transform: translate(0%, -50%);
     transition: 0.2s;
   }
+}
+.list-title{
+  overflow:hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
 }
 .add-btn {
   border: none;
