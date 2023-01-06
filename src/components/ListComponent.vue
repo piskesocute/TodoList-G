@@ -12,32 +12,38 @@ onMounted(() => {
 </script>
 <template>
   <section class="list-box">
-    <ul class="list-unstyled d-flex flex-column pt-24">
-      <li class="d-flex justify-content-between align-items-center">
-        <h1 class="fs-20 fw-bold">Demo Todo List</h1>
+    <ul class="list-unstyled d-flex flex-column lh-base">
+      <li class="list-logo d-flex justify-content-between align-items-center">
+        <h1 class="fs-20 fw-bold m-0 ">Demo Todo List</h1>
         <button
           type="button"
-          class="btn btn-sm d-block d-md-none me-3"
+          class="btn border-0 d-block d-md-none me-24 p-0 close-btn lh-sm"
           @click="changeNav"
         >
-          <i class="bi bi-x-lg fs-20"></i>
+          <img class="close-btn d-block" src="/x-lg.svg" alt="close" />
+          <!-- <i class="bi bi-x-lg fs-20"></i> -->
         </button>
       </li>
       <li
         v-for="(item, index) in listData"
         :key="index + 103021"
-        class="list-item bg-hover-green fs-20 lh-base "
+        class="list-item bg-hover-green fs-20 lh-base"
         :class="{ active: index === nowListIndex }"
       >
         <a
-          class="text-black text-decoration-none"
+          class="text-black text-decoration-none w-100"
           href=""
-          @click.prevent="changeList(index);changeNav()"
+          @click.prevent="
+            changeList(index);
+            changeNav();
+          "
         >
           <p class="m-0 p-1" v-if="item.title === ''">
             {{ index + 1 }}.item title
           </p>
-          <p class="m-0 p-1 list-title" v-else>{{ index + 1 }} .{{ item.title }}</p>
+          <p class="m-0 p-1 list-title" v-else>
+            {{ index + 1 }} .{{ item.title }}
+          </p>
         </a>
       </li>
     </ul>
@@ -48,7 +54,7 @@ onMounted(() => {
         @click="addItem"
         :disabled="listData.length >= 10"
       >
-        Add item
+        Add Item
       </button>
     </div>
   </section>
@@ -57,7 +63,12 @@ onMounted(() => {
 .list-box {
   width: 100%;
   height: 100%;
-  h1 {
+  h1{
+    line-height: base;
+
+  }
+  .list-logo {
+    height: 45px;
     margin-top: 12px;
     margin-left: 21px;
     margin-bottom: 9px;
@@ -65,6 +76,10 @@ onMounted(() => {
 }
 
 .list-item {
+  height: 48px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
   margin-bottom: 8px;
   padding-top: 4px;
   padding-left: 13px;
@@ -89,11 +104,22 @@ onMounted(() => {
     transition: 0.2s;
   }
 }
-.list-title{
-  overflow:hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
+.list-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
+
+.close-btn {
+  width: 20px;
+  height: 20px;
+
+  :hover {
+    background: #81f8b1;
+    transition: 0.2s;
+  }
+}
+
 .add-btn {
   border: none;
   border-radius: 10px;
@@ -102,6 +128,9 @@ text-overflow: ellipsis;
   font-size: 20px;
   font-weight: 400;
   transition: 0.2s;
+  @include md{
+    padding: 9px 96px;
+  }
   &:hover {
     background: #81f8b1;
     transition: 0.2s;
