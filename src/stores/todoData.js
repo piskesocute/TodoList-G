@@ -9,13 +9,16 @@ export const useTodoData = defineStore('todoData', () => {
   const changeNav = () => {
     navOpen.value = !navOpen.value;
   };
+
   // 目前停留選單內容
   const nowList = ref({
     title: '',
     content: '',
-    dateFrom: new Date(),
+    dateFrom: '',
+    dateTo: '',
     img: '',
   });
+
   // 目前停留選單序列
   const nowListIndex = ref(0);
 
@@ -23,7 +26,8 @@ export const useTodoData = defineStore('todoData', () => {
   const listData = ref([{
     title: '',
     content: '',
-    dateFrom: new Date(),
+    dateFrom: '',
+    dateTo: '',
     img: '',
   },
   ]);
@@ -38,12 +42,14 @@ export const useTodoData = defineStore('todoData', () => {
     listData.value.push({
       title: '',
       content: '',
-      dateFrom: new Date(),
+      dateFrom: '',
+      dateTo: '',
       img: '',
     });
     // 新增後前往最新選單
     changeList(listData.value.length - 1);
   };
+
   // 刪除list
   const removeItem = () => {
     // 清單長度少於1則先增加再刪除第一項，再將nowListIndex導回0
