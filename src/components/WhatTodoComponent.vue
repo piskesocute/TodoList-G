@@ -1,5 +1,4 @@
 <script setup>
-import '@vuepic/vue-datepicker/dist/main.css';
 import { useTodoData } from '@/stores/todoData';
 import {
   computed, onMounted,
