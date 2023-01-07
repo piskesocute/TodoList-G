@@ -1,8 +1,9 @@
 <script setup>
-import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useTodoData } from '@/stores/todoData';
-import { computed, onMounted } from 'vue';
+import {
+  computed, onMounted,
+} from 'vue';
 import { storeToRefs } from 'pinia';
 
 const store = useTodoData();
@@ -10,8 +11,15 @@ const { changeNav, removeItem, changeList } = store;
 const { nowList } = storeToRefs(store);
 const textLength = computed(() => nowList.value.content.length);
 
+// 上傳圖片
 const imgUpload = (e) => {
   const fileData = e.target.files[0];
+  // 判斷上傳內容是否為圖片格式
+  if (fileData.type.indexOf('image') === -1) {
+    alert('格式錯誤，請重新上傳jpg、jpge、png、gif、svg等圖形檔案');
+    return;
+  }
+  // 將圖片投射到img標籤上
   const reader = new FileReader();
   reader.readAsDataURL(fileData);
   reader.addEventListener('load', (event) => {
@@ -19,10 +27,18 @@ const imgUpload = (e) => {
   });
 };
 
-const minDate = computed(() => {
-  const selectDate = new Date(nowList.value.dateFrom.getTime() + 86400000);
-  return selectDate;
+// 計算dataTo的時間為dataFrom
+const dateAdd = computed(() => {
+  // 必須將字串改為YYYY-MM-DD的格式，必須要補0
+  const date = new Date(nowList.value.dateFrom);
+  let day = date.getDate() + 1;
+  day = day < 10 ? `0${day}` : day;
+  let month = date.getMonth() + 1;
+  month = month < 10 ? `0${month}` : month;
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
 });
+
 onMounted(() => {
   changeList();
 });
@@ -38,16 +54,25 @@ onMounted(() => {
     >
       <button
         type="button"
-        class="btn mb-24 btn-sm d-block d-md-none"
+        class="btn mb-24 btn-sm d-block d-md-none p-0 border-0 btn-hover"
         @click="changeNav"
       >
-        <i class="bi bi-list fs-20"></i>
+        <div class="hamburger-box">
+          <div class="hamburger"></div>
+          <div class="hamburger"></div>
+          <div class="hamburger"></div>
+        </div>
       </button>
-      <button type="button" class="btn mb-24 btn-sm" @click="removeItem">
-        <i class="bi bi-trash-fill fs-20"></i>
+      <button
+        type="button"
+        class="btn mb-24 trash-btn p-0 border-0 btn-hover "
+        @click="removeItem"
+      >
+      <img class="trash-btn d-block" src="/trash-fill.svg" alt="">
+        <!-- <i class="bi bi-trash-fill fs-20"></i> -->
       </button>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
       <!-- title -->
       <div class="row mb-24">
         <div class="col-12">
@@ -63,7 +88,7 @@ onMounted(() => {
         <div class="col-12 col-lg-7">
           <div class="position-relative mb-24">
             <textarea
-              class="form-control pb-64"
+              class="form-control w-100 text-resize"
               placeholder="content"
               style="height: 150px"
               maxlength="200"
@@ -73,17 +98,26 @@ onMounted(() => {
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
-            <Datepicker
-              class="w-100 text-center fs-18 fs-md-20"
+            <label for="dateFrom" />
+            <input
+              type="date"
+              name="dateFrom"
+              class="w-100 text-center fs-18 fs-md-20 input-date"
               v-model="nowList.dateFrom"
-              :enable-time-picker="false"
+              onkeydown="return false;"
+              ref="fromDateRef"
+              @click="$refs.fromDateRef.showPicker()"
             />
-            <span class="px-1"></span>
-            <Datepicker
-              class="w-100 text-center fs-20 right-date"
+
+            <span class="px-1 mx-18">~</span>
+            <input
+              type="date"
+              class="w-100 text-center fs-20 right-date input-date"
+              :min="dateAdd"
               v-model="nowList.dateTo"
-              :min-date="minDate"
-              :enable-time-picker="false"
+              onkeydown="return false;"
+              ref="toDateRef"
+              @click="$refs.toDateRef.showPicker()"
             />
           </div>
         </div>
@@ -99,31 +133,50 @@ onMounted(() => {
               alt=""
             />
           </div>
-          <label class="w-100 btn btn-lg btn-btn-green">
+          <label class="w-100 btn btn-lg btn-btn-green add-btn">
             Upload Image
-            <input type="file" style="display: none" @change="imgUpload" />
+            <input
+              type="file"
+              style="display: none"
+              @change="imgUpload"
+              multiple
+              accept="image/*"
+            />
           </label>
         </div>
       </div>
     </div>
   </section>
 </template>
+
 <style lang='scss' scoped>
 .whattodo-box {
-  padding: 23px 17px 23px 25px;
+  padding: 24px 17px 24px 25px;
   width: 100%;
+  @include md{
+    padding: 22px 15px 24px 20px;
+  }
+}
+
+.text-resize{
+  resize:none;
+}
+.btn-hover:hover {
+  background: #81f8b1;
+  transition: 0.2s;
 }
 .textlenght {
   position: absolute;
   font-size: 14px;
   line-height: 15px;
   bottom: 10px;
-  right: 30px;
+  right: 17px;
+
 }
 .img-box {
   width: 100%;
   height: 150px;
-  background-color: #EBEBEB;
+  background-color: #ebebeb;
   position: relative;
   &.noimg::before {
     position: absolute;
@@ -139,8 +192,67 @@ onMounted(() => {
   object-fit: cover;
   object-position: center center;
 }
+.input-date {
+  background-color: #ebebeb;
+  border: 0;
+  border-radius: 10px;
+  line-height: 1.5rem;
+  transition: 0.2s;
+  padding: 13px 0px;
+  @include md{
+    padding: 13px 0px;
+  }
+  &:hover {
+    background: #81f8b1;
+    transition: 0.2s;
+  }
+  &:focus-visible {
+    border: 0;
+    outline: none;
+  }
+}
+.input-date::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+// .dp__theme_light {
+//   --dp-background-color: #EBEBEB;
+// }
 
-.dp__theme_light {
-  --dp-background-color: #EBEBEB;
+.add-btn {
+  border: none;
+  border-radius: 10px;
+  background-color: #e7ffe9;
+  padding: 9px 41px 9px 36px;
+  font-size: 20px;
+  font-weight: 400;
+  transition: 0.2s;
+  &:hover {
+    background: #81f8b1;
+    transition: 0.2s;
+  }
+  &:disabled {
+    &:hover {
+      background: #e7ffe9;
+    }
+  }
+}
+
+.trash-btn{
+  width: 20px;
+  height: 20px;
+}
+.hamburger-box {
+  width: 24px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .hamburger {
+    width: 24px;
+    height: 5px;
+    background-color: #000;
+  }
 }
 </style>
